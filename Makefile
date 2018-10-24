@@ -35,3 +35,6 @@ run: mykernel.iso
 	(killall VirtualBox && sleep 1) || true
 	VirtualBox --startvm "XeOS" &
 	
+.PHONY: clean
+	clean:
+		rm -f $(objects) mykernel.bin mykernel.iso
