@@ -1,5 +1,6 @@
 #include "types.h"
 #include "gdt.h"
+#include "interrupts.h"
 
 void printf(char* str) {
     static uint16_t* VideoMemory = (uint16_t*)0xb8000;
@@ -43,12 +44,12 @@ extern "C" void callConstructors() {
 }*/
 
 extern "C" void kernelMain(void* multiboot_structure, uint32_t magicnumber) {
-    printf("Hello World! --- Here is STARBOY\n\n");
-    printf("XENON OS.... Testing STAGE 4\n\n");
-    printf("TEST PROCESSING.... \n\n");
-    printf("TEST SUCCESSFULL");
+    printf("Hello World! --- Here is STARBOY");
 
     GlobalDescriptorTable gdt;
+    InterruptManager interrupts(&gdt);
+
+    interrupts.Activate();
     
     // XeOS never stops :D
     while(1);
