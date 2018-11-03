@@ -4,6 +4,8 @@ void printf(char* str);
 
 InterruptManager::GateDescriptor InterruptManager::interruptDescriptorTable[256];
 
+InterruptManager InterruptManager::ActiveInterruptManager = 0;
+
 void InterruptManager::SetInterruptDescriptorTableEntry(
 	uint8_t InterruptNumber,
 	uint16_t codeSegmentSelectorOffset,
@@ -61,6 +63,7 @@ InterruptManager::~InterruptManager() {}
 
 // Tells the CPU to start sending interrupts
 void InterruptManager::Activate() {
+	
 	asm("sti");
 }
 
