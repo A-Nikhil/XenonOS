@@ -21,6 +21,7 @@
 		public:
 			DriverManager();
 			void AddDriver(Driver*);
+			void ActivateAll();
 	};
 
 

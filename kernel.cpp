@@ -1,6 +1,7 @@
 #include "types.h"
 #include "gdt.h"
 #include "interrupts.h"
+#include "driver.h"
 #include "keyboard.h"
 #include "mouse.h"
 
@@ -46,13 +47,19 @@ extern "C" void callConstructors() {
 }*/
 
 extern "C" void kernelMain(void* multiboot_structure, uint32_t magicnumber) {
-    printf("Hello World! --- Here is STARBOY  ");
+    printf("Hello World! --- This is Xenon  ");
 
     GlobalDescriptorTable gdt;
     InterruptManager interrupts(&gdt);
 
+    DriverManager drvManager;
+
+
     KeyboardDriver keyboard(&interrupts);
+    drvManager.AddDriver(&keyboard);
     MouseDriver mouse(&interrupts);
+    drvManager.AddDriver(&mouse);
+	drvManager.ActivateAll();
 
     interrupts.Activate();
     

@@ -28,6 +28,12 @@ void AddDriver(Driver*)
 {
 	drivers[numDrivers] = drv;
 	numDrivers++;
+}	
+
+void Drivermanager::ActivateAll(){
+	for(int i =0;i<numDrivers;i++)
+		drivers[i]->Activate();	
+
 }
 
 

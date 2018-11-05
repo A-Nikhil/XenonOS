@@ -4,11 +4,20 @@ MouseDriver::MouseDriver(InterruptManager *manager)
 : InterruptHandler(0x2C, manager),
 dataport(0x60),
 commandport(0x64) {
-    offset = 0;
-    buttons = 0;
+   
+}
 
-    static uint16_t *VideoMemory = (uint16_t *)0xb8000;
+MouseDriver::~MouseDriver() {
+
+}
+
+void printf(char*);
+
+void MouseDriver::Activate(){
+	static uint16_t *VideoMemory = (uint16_t *)0xb8000;
     VideoMemory[80 * 12 + 40] = ((VideoMemory[80 * 12 + 40] & 0xF000) >> 4) | ((VideoMemory[80 * 12 + 40] & 0x0F00) << 4) | (VideoMemory[80 * 12 + 40] & 0x00FF);
+	 offset = 0;
+    buttons = 0;
     
     commandport.Write(0xA8); // Start Seniding  interrupts
     commandport.Write(0x20); // Give us current state
@@ -19,13 +28,8 @@ commandport(0x64) {
     commandport.Write(0xD4);
     dataport.Write(0xF4);
     dataport.Read();
-}
-
-MouseDriver::~MouseDriver() {
 
 }
-
-void printf(char*);
 
 uint32_t MouseDriver::HandleInterrupt(uint32_t esp) {
     uint8_t status = commandport.Read();
