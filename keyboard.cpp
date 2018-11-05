@@ -1,10 +1,22 @@
 #include "keyboard.h"
 
-KeyboardDriver::KeyboardDriver(InterruptManager *manager) 
+
+KeyboardEventHandler::KeyboardEventHandler{
+}
+KeyboardEventHandler::OnKeyDown(char)
+{
+}
+KeyboardEventHandler::OnKeyUp(char)
+{
+}
+
+
+
+KeyboardDriver::KeyboardDriver(InterruptManager *manager, KeyboardEventHandler *handler) 
 : InterruptHandler(0x21, manager),
 dataport(0x60),
 commandport(0x64) {
-  
+  this->handler = handler;
 }
 
 KeyboardDriver::~KeyboardDriver() {
@@ -30,6 +42,9 @@ void KeyboardDriver::Activate(){
 uint32_t KeyboardDriver::HandleInterrupt(uint32_t esp) {
     uint8_t key = dataport.Read();
     static bool Shift = false;
+    if(handler == 0)
+		return esp;
+
 
     switch(key) {
             case 0x02: if (Shift) printf("!"); else printf("1"); break;
