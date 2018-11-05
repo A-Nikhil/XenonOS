@@ -16,7 +16,7 @@
 	class DriverManager
 	{
 		private:
-			Driver* drivers[255]; //Fixed size, because we havent done memory management yet
+			Driver* drivers[265]; //Fixed size, because we havent done memory management yet
 			int numDrivers;
 		public:
 			DriverManager();
