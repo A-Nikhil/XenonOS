@@ -1,6 +1,7 @@
 #include "interrupts.h"
 
 void printf(char* str);
+void printfHex(uint8_t);
 
 InterruptHandler::InterruptHandler(uint8_t interruptNumber, InterruptManager *interruptManager) {
 	this->interruptNumber = interruptNumber;
@@ -105,7 +106,7 @@ uint32_t InterruptManager::DoHandleInterrupt(uint8_t interruptNumber, uint32_t e
 		esp = handlers[interruptNumber]->HandleInterrupt(esp);
 	} else if(interruptNumber != 0x20) {
 		printf("UNHANDLED INTERRUPT 0x");
-		printfHex(interrupt);
+		printfHex(interruptNumber);
 	}
 	
 	if(0x20 <= interruptNumber && interruptNumber < 0x30) {
