@@ -85,7 +85,7 @@ class MouseToConsole : public MouseEventHandler {
 };
 
 extern "C" void kernelMain(void* multiboot_structure, uint32_t magicnumber) {
-    printf("Hello World! --- Here is STARBOY  \n");
+    printf("Hello World! --- Here is STARBOY \n");
 
     GlobalDescriptorTable gdt;
     InterruptManager interrupts(&gdt);
