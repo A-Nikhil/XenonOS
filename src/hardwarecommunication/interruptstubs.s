@@ -3,20 +3,20 @@
 .section .text
 
 # interrupt call number, required for handling
-.extern _ZN16InterruptManager15handleInterruptEhj
+.extern _ZN7xenonos21hardwarecommunication16InterruptManager15handleInterruptEhj
 
-.global _ZN16InterruptManager22IgnoreInterruptRequestEv
+.global _ZN7xenonos21hardwarecommunication16InterruptManager22IgnoreInterruptRequestEv
 
 .macro HandleException num
-.global _ZN16InterruptManager16HandleException\num\()Ev
-_ZN16InterruptManager16HandleException\num\()Ev:
+.global _ZN7xenonos21hardwarecommunication16InterruptManager16HandleException\num\()Ev
+_ZN7xenonos21hardwarecommunication16InterruptManager16HandleException\num\()Ev:
 	movb $\num, (interruptnumber)
 	jmp int_bottom
 .endm
 
 .macro HandleInterruptRequest num
-.global _ZN16InterruptManager26HandleInterruptRequest\num\()Ev
-_ZN16InterruptManager26HandleInterruptRequest\num\()Ev:
+.global _ZN7xenonos21hardwarecommunication16InterruptManager26HandleInterruptRequest\num\()Ev
+_ZN7xenonos21hardwarecommunication16InterruptManager26HandleInterruptRequest\num\()Ev:
 	movb $\num + IRQ_BASE, (interruptnumber)
 	jmp int_bottom
 .endm
@@ -35,7 +35,7 @@ int_bottom:
 
 	push %esp
 	push (interruptnumber)
-	call _ZN16InterruptManager15handleInterruptEhj
+	call _ZN7xenonos21hardwarecommunication16InterruptManager15handleInterruptEhj
 	movl %eax, %esp
 
 	popl %gs
@@ -44,7 +44,7 @@ int_bottom:
 	popl %ds
 	popa
 
-	_ZN16InterruptManager22IgnoreInterruptRequestEv:
+	_ZN7xenonos21hardwarecommunication16InterruptManager22IgnoreInterruptRequestEv:
 
 	# Tells the processor that interrupt handling is done 
 	# and it can return to what it was doing earlier
